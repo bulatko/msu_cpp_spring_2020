@@ -2,7 +2,7 @@
 #define ALLOCATOR_H_INCLUDED
 
 void makeAllocator(int num);
-char* alloc(int num);
+char *alloc(int num);
 void reset();
 
 #endif // ALLOCATOR_H_INCLUDED
