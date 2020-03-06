@@ -7,6 +7,7 @@ using namespace std;
 
 int main()
 {
+    
 makeAllocator(1000);
 
 char* p1 = alloc(100);
