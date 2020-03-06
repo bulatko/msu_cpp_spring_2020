@@ -10,6 +10,6 @@ allocator.o: allocator.cpp allocator.h
 	g++ -c allocator.cpp
 
 clean:
-	rm -rf *.o *.exe my_prog
+	rm *.o
 
 

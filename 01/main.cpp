@@ -19,20 +19,20 @@ if(p2 == p1){
     return 1;
 }
 
-    cout << "test 1 is OK";
+    cout << "test 1 is OK" << endl;
 
 if(p2 - p1 != 100 ){
     cerr << "Test 2 error: p2 - p1 != 100";
     return 1;
 }
-    cout << "test 2 is OK";
+    cout << "test 2 is OK" << endl;
 
 if(p3 != nullptr){
     cerr << "Test 3 error: p3 is not nullptr";
     return 1;
 }
 
-    cout << "test 3 is OK";
+    cout << "test 3 is OK" << endl;
 
 reset();
 
@@ -43,8 +43,9 @@ if(p4 == nullptr){
     return 1;
 }
 
-cout << "test 4 is OK";
+cout << "test 4 is OK" << endl;
 
+cin.get();
 
     return 0;
 }
