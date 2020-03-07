@@ -48,5 +48,25 @@ int main()
 
     cout << "test 4 is OK" << endl;
 
+    char *p5 = alloc(200);
+
+    if (p5 == nullptr)
+    {
+        cerr << "Test 5 error: p5 is nullptr";
+        return 1;
+    }
+
+    cout << "test 5 is OK" << endl;
+
+    char *p6 = alloc(1);
+
+    if (p6 != nullptr)
+    {
+        cerr << "Test 6 error: p6 is nullptr";
+        return 1;
+    }
+
+    cout << "test 6 is OK" << endl;
+
     return 0;
 }

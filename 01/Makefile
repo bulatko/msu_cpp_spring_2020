@@ -1,7 +1,7 @@
-all: my_prog
+all: test
 
-my_prog: main.o allocator.o
-	g++ -o my_prog main.o allocator.o
+test: main.o allocator.o
+	g++ -o test main.o allocator.o
 
 main.o: main.cpp allocator.h
 	g++ -c main.cpp
@@ -9,7 +9,7 @@ main.o: main.cpp allocator.h
 allocator.o: allocator.cpp allocator.h
 	g++ -c allocator.cpp
 
-clean:
-	rm *.o
+clean: main.cpp
+	rm -rf *.o test
 
 
