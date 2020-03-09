@@ -1,17 +1,32 @@
 #include "allocator.h"
 #include <cstdlib>
-
+#include <iostream>
+#define MAX_AVALIBLE_SIZE 100000
 char *block;
-int last = 0, block_size;
+size_t last = 0, block_size;
 
-void makeAllocator(int num)
+void makeAllocator(size_t num)
 {
-
-    block = (char *)malloc(num);
-    block_size = num;
+    try
+    {
+        block = (char *)malloc(num);
+        block_size = num;
+    }
+    catch (const std::exception &e)
+    {
+        if (num > MAX_AVALIBLE_SIZE)
+        {
+            std::cerr << e.what() << '\n';
+            exit(2);
+        }
+        else
+        {
+            makeAllocator(MAX_AVALIBLE_SIZE);
+        }
+    }
 }
 
-char *alloc(int num)
+char *alloc(size_t num)
 {
 
     int t = last;
