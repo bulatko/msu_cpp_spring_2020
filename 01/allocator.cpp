@@ -7,23 +7,11 @@ size_t last = 0, block_size;
 
 void makeAllocator(size_t num)
 {
-    try
-    {
-        block = (char *)malloc(num);
+
+    if (block = (char *)malloc(num))
         block_size = num;
-    }
-    catch (const std::exception &e)
-    {
-        if (num > MAX_AVALIBLE_SIZE)
-        {
-            std::cerr << e.what() << '\n';
-            exit(2);
-        }
-        else
-        {
-            makeAllocator(MAX_AVALIBLE_SIZE);
-        }
-    }
+    else
+        block_size = 0;
 }
 
 char *alloc(size_t num)
