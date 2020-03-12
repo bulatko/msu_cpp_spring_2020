@@ -24,26 +24,30 @@ auto get_words_count(const string s)
 
 auto get_max_words_length(const string s)
 {
-    if(s.size() > max_words_length)
+    if (s.size() > max_words_length)
         max_words_length = s.size();
 }
 
-void refresh(){
+void refresh()
+{
     onStart = nullptr;
     onEnd = nullptr;
     onText = nullptr;
     onNumber = nullptr;
 }
 
-auto count_sum(const string s){
+auto count_sum(const string s)
+{
     int num = 0;
-    for(int i = 0; i < s.size(); i++){
+    for (int i = 0; i < s.size(); i++)
+    {
         num += (s[s.size() - i - 1] - '0') * pow(10, i);
     }
     sum += num;
 }
 
-void is_ended(){
+void is_ended()
+{
     ended = 1;
 }
 
@@ -60,7 +64,8 @@ int main()
     started = 0;
     set_onStart(is_started);
     parse("123");
-    if(!started){
+    if (!started)
+    {
         cout << "NO" << endl;
         return 1;
     }
@@ -71,50 +76,50 @@ int main()
     numbers_count = 0;
     set_onNumber(get_numbers_count);
     parse("12 sdf f 34235 dsf34 2 55 7");
-    if(numbers_count != 5){
+    if (numbers_count != 5)
+    {
         cout << "NO" << endl;
         return 1;
     }
     cout << "OK" << endl;
     refresh();
-
 
     cout << "TEST 3: ";
     max_words_length = 0;
     set_onText(get_max_words_length);
     parse("12 sdf f 34235 dsf34 2 55 7 abcdef");
-    if(max_words_length != 6){
+    if (max_words_length != 6)
+    {
         cout << "NO" << endl;
         return 1;
     }
     cout << "OK" << endl;
     refresh();
-
 
     cout << "TEST 4: ";
     max_words_length = 0;
     set_onNumber(get_max_words_length);
     set_onText(get_max_words_length);
     parse("12 sdf f 34235 dsf34 2 55 7 abcdef 1234567");
-    if(max_words_length != 7){
+    if (max_words_length != 7)
+    {
         cout << "NO" << endl;
         return 1;
     }
     cout << "OK" << endl;
     refresh();
-
 
     cout << "TEST 5: ";
     sum = 0;
     set_onNumber(count_sum);
     parse("numbers 1 & 5 & 25 and 100");
-    if(sum != 131){
+    if (sum != 131)
+    {
         cout << "NO" << endl;
         return 1;
     }
     cout << "OK" << endl;
     refresh();
-
 
     cout << "TEST 6: ";
     started = 0;
@@ -122,14 +127,13 @@ int main()
     set_onStart(is_started);
     set_onEnd(is_ended);
     parse("Any random sentence with number 123421");
-    if(!(started && ended)){
+    if (!(started && ended))
+    {
         cout << "NO" << endl;
         return 1;
     }
     cout << "OK" << endl;
     refresh();
-
-
 
     return 0;
 }

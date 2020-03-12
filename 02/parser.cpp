@@ -8,36 +8,39 @@ using namespace std;
 onItem onNumber, onText;
 onPart onStart, onEnd;
 
-void set_onNumber(onItem func){
+void set_onNumber(onItem func)
+{
     onNumber = func;
 }
-void set_onText(onItem func){
+void set_onText(onItem func)
+{
     onText = func;
 };
-void set_onStart(onPart func){
+void set_onStart(onPart func)
+{
     onStart = func;
 };
-void set_onEnd(onPart func){
+void set_onEnd(onPart func)
+{
     onEnd = func;
 };
-
 
 void parse(const string s)
 {
     stringstream ss;
-    if(onStart != nullptr)
+    if (onStart != nullptr)
         onStart();
     ss << s;
     string str;
     while (ss >> str)
     {
-        if(is_num(str) && onNumber != nullptr)
+        if (is_num(str) && onNumber != nullptr)
             onNumber(str);
-            else if(is_text(str) && onText != nullptr)
+        else if (is_text(str) && onText != nullptr)
             onText(str);
     }
-    if(onEnd != nullptr)
-    onEnd();
+    if (onEnd != nullptr)
+        onEnd();
 }
 bool is_num(const string s)
 {
