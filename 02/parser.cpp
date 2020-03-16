@@ -8,24 +8,35 @@ using namespace std;
 onItem onNumber, onText;
 onPart onStart, onEnd;
 
+void refresh()
+{
+    onNumber = nullptr;
+    onText = nullptr;
+    onStart = nullptr;
+    onEnd = nullptr;
+}
+
 void set_onNumber(onItem func)
 {
     onNumber = func;
 }
+
 void set_onText(onItem func)
 {
     onText = func;
 };
+
 void set_onStart(onPart func)
 {
     onStart = func;
 };
+
 void set_onEnd(onPart func)
 {
     onEnd = func;
 };
 
-void parse(const string s)
+void parse(const string &s)
 {
     stringstream ss;
     if (onStart != nullptr)
@@ -42,7 +53,7 @@ void parse(const string s)
     if (onEnd != nullptr)
         onEnd();
 }
-bool is_num(const string s)
+bool is_num(const string &s)
 {
     for (int i = 0; i < s.size(); i++)
         if (s[i] < '0' || s[i] > '9')
@@ -50,7 +61,7 @@ bool is_num(const string s)
 
     return true;
 }
-bool is_text(const string s)
+bool is_text(const string &s)
 {
     for (int i = 0; i < s.size(); i++)
         if (!((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')))

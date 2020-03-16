@@ -12,31 +12,24 @@ auto is_started()
     started = 1;
 }
 
-auto get_numbers_count(const string s)
+auto get_numbers_count(const string &s)
 {
     numbers_count++;
 }
 
-auto get_words_count(const string s)
+auto get_words_count(const string &s)
 {
     words_count++;
 }
 
-auto get_max_words_length(const string s)
+auto get_max_words_length(const string &s)
 {
     if (s.size() > max_words_length)
         max_words_length = s.size();
 }
 
-void refresh()
-{
-    onStart = nullptr;
-    onEnd = nullptr;
-    onText = nullptr;
-    onNumber = nullptr;
-}
 
-auto count_sum(const string s)
+auto count_sum(const string &s)
 {
     int num = 0;
     for (int i = 0; i < s.size(); i++)
