@@ -2,11 +2,13 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
-onItem onNumber, onText;
+onItem onText;
 onPart onStart, onEnd;
+onNum onNumber;
 
 void refresh()
 {
@@ -16,7 +18,7 @@ void refresh()
     onEnd = nullptr;
 }
 
-void set_onNumber(onItem func)
+void set_onNumber(onNum func)
 {
     onNumber = func;
 }
@@ -46,7 +48,7 @@ void parse(const string &s)
     while (ss >> str)
     {
         if (is_num(str) && onNumber != nullptr)
-            onNumber(str);
+            onNumber(get_num(str));
         else if (is_text(str) && onText != nullptr)
             onText(str);
     }
@@ -56,7 +58,7 @@ void parse(const string &s)
 bool is_num(const string &s)
 {
     for (int i = 0; i < s.size(); i++)
-        if (s[i] < '0' || s[i] > '9')
+        if (!isdigit(s[i]))
             return false;
 
     return true;
@@ -64,8 +66,15 @@ bool is_num(const string &s)
 bool is_text(const string &s)
 {
     for (int i = 0; i < s.size(); i++)
-        if (!((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')))
+        if (!isalpha(s[i]))
             return false;
 
     return true;
+}
+
+int get_num(const string &s){
+    int d = 0;
+    for(int i = 0; i < s.size(); i++)
+        d += (s[s.size() - i - 1] - '0') * pow(10, i);
+    return d;
 }

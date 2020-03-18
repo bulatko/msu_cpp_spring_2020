@@ -5,14 +5,16 @@
 
 using namespace std;
 
-int started, numbers_count, words_count, max_words_length, sum, ended;
+int started, numbers_count, words_count, max_words_length, 
+    sum, ended, squares_sum = 0;
+
 
 auto is_started()
 {
     started = 1;
 }
 
-auto get_numbers_count(const string &s)
+auto get_numbers_count(const int &s)
 {
     numbers_count++;
 }
@@ -29,14 +31,13 @@ auto get_max_words_length(const string &s)
 }
 
 
-auto count_sum(const string &s)
+auto count_sum(const int &s)
 {
-    int num = 0;
-    for (int i = 0; i < s.size(); i++)
-    {
-        num += (s[s.size() - i - 1] - '0') * pow(10, i);
-    }
-    sum += num;
+    
+    sum += s;
+}
+auto get_squares_sum(const int &num){
+    squares_sum += num * num;
 }
 
 void is_ended()
@@ -91,10 +92,10 @@ int main()
 
     cout << "TEST 4: ";
     max_words_length = 0;
-    set_onNumber(get_max_words_length);
-    set_onText(get_max_words_length);
-    parse("12 sdf f 34235 dsf34 2 55 7 abcdef 1234567");
-    if (max_words_length != 7)
+    squares_sum = 0;
+    set_onNumber(get_squares_sum);
+    parse("1 2 3 4 fjsiodjfio 5");
+    if (squares_sum != 55)
     {
         cout << "NO" << endl;
         return 1;
