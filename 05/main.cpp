@@ -47,6 +47,7 @@ int main()
     ss3 << a;
     ss4 << pow_2_500;
     Test(ss3.str() == ss4.str());
+    Test(ss1.str() != ss4.str());
 
     return 0;
 }
