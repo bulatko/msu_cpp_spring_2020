@@ -2,6 +2,7 @@
 #include "long.h"
 #include <string>
 #include <math.h>
+#include <sstream>
 
 using namespace std;
 int test_num = 1;
@@ -34,7 +35,18 @@ int main()
     Test(a != 5 == false);
     Test(a == 5);
     Test(a <= a - 0);
-    cout << a + b + c + d + e; //19
+    stringstream ss1, ss2;
+    ss1 << a + b + c + d + e;
+    ss2 << 19;
+    Test(ss1.str() == ss2.str());
+    a = 1;
+    for(int i = 0; i < 500; i++)
+        a = a + a;
+    string pow_2_500 = "3273390607896141870013189696827599152216642046043064789483291368096133796404674554883270092325904157150886684127560071009217256545885393053328527589376"; 
+    stringstream ss3, ss4;
+    ss3 << a;
+    ss4 << pow_2_500;
+    Test(ss3.str() == ss4.str());
 
     return 0;
 }

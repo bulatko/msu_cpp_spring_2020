@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Long::Long(int a)
+Long::Long(long long a)
 {
     if (a == 0)
     {

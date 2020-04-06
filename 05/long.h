@@ -6,7 +6,7 @@ private:
     int *arr = NULL, len, sign;
 
 public:
-    Long(int a);
+    Long(long long a);
     Long(int *a, int l);
     Long(int *a, int l, int s);
 
