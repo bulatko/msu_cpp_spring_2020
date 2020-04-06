@@ -21,14 +21,17 @@ int main()
     Long a = 5, b = a + 3, c = 8, d = 3, e = -5;
     Test(b != a);
     Test(b > a);
+    Test(b < a == false);
     Test(b >= a);
     Test(a >= a);
     Test(a <= a);
+    Test(a < a == false);
     Test(a < b);
     Test(b == c);
     Test(c - d == a);
     Test(a + e == b - c);
     Test(a + 3 == b);
+    Test(a != 5 == false);
     Test(a == 5);
     Test(a <= a - 0);
     cout << a + b + c + d + e; //19

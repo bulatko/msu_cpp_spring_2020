@@ -76,12 +76,12 @@ bool Long::operator<(const Long &a)
 };
 bool Long::operator>=(const Long &a)
 {
-    return this > &a or this == &a;
+    return *this > a or *this == a;
 };
 
 bool Long::operator<=(const Long &a)
 {
-    return this < &a or this == &a;
+    return *this < a or *this == a;
 };
 bool Long::operator==(const Long &a)
 {
@@ -94,7 +94,7 @@ bool Long::operator==(const Long &a)
 };
 bool Long::operator!=(const Long &a)
 {
-    return !(this == &a);
+    return !(*this == a);
 };
 Long operator-(const Long &a, const Long &b)
 {
