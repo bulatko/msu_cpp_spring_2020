@@ -6,6 +6,7 @@ private:
     double* array;
 public:
     Row(const size_t& len);
+    Row(const Row& a);
     friend Row operator*(const Row &a, const int &b);
     friend Row operator*(const Row &a, const double &b);
     double& operator [](const int &b);
@@ -14,6 +15,7 @@ public:
     void operator *=(const double &b);
     bool operator ==(const Row &a);
     bool operator !=(const Row &a);
+    void print();
 };
 class Matrix
 {
@@ -22,7 +24,7 @@ private:
     Row* array;
 public:
     Matrix(const size_t& a, const size_t& b);
-
+    Matrix(const Matrix& a);
     friend Matrix operator*(const Matrix &a, const int &b);
     friend Matrix operator*(const Matrix &a, const double &b);
     Row& operator [](const int &a);
@@ -33,4 +35,5 @@ public:
     bool operator !=(const Matrix &a);
     size_t getRows();
     size_t getColumns();
+    void print();
 };
