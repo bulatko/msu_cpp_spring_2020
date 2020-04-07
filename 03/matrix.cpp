@@ -151,4 +151,5 @@ void Matrix::print(){
     for(int i = 0; i < len; i++){
         array[i].print();
     }
+    cout << endl;
 }
