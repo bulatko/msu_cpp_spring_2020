@@ -24,8 +24,8 @@ int main()
 
     Matrix m(rows, cols);
 
-    assert(m.getRows() == 5);
-    assert(m.getColumns() == 3);
+    Test(m.getRows() == 5);
+    Test(m.getColumns() == 3);
 
     m[1][2] = 5; // строка 1, колонка 2
     Test(m[1][2] == 5);
