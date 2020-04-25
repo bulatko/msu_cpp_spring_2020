@@ -65,6 +65,5 @@ int main()
     });
     
     Test(first_even == 6 && first_even_rev == 52);
-
     return 0;
 }

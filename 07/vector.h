@@ -121,6 +121,17 @@ public:
             throw std::out_of_range("Error");
         }
     }
+    const T &operator[](size_t idx) const
+    {
+        if (idx < size_)
+        {
+            return elements_[idx];
+        }
+        else
+        {
+            throw std::out_of_range("Error");
+        }
+    }
 
     void reserve(size_t new_size)
     {
@@ -174,12 +185,12 @@ public:
         size_ = 0;
     }
 
-    Iterator<T> begin()
+    Iterator<T> begin() const
     {
         return Iterator<T>(elements_);
     }
 
-    Iterator<T> end()
+    Iterator<T> end() const
     {
         return Iterator<T>(elements_ + size_);
     }
