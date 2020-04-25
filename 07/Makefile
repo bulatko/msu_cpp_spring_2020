@@ -1,10 +1,10 @@
 all: test
 
 test: main.o
-	g++ -o test main.o
+	g++ -o test main.o --std=c++17
 
 main.o: main.cpp vector.h
-	g++ -c main.cpp
+	g++ -c main.cpp --std=c++17
 
 
 clean: main.cpp
