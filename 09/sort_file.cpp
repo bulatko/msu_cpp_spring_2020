@@ -8,7 +8,6 @@
 #include <iterator>
 
 #define CHUNK_SIZE 1024 * 1024
-//#define CHUNK_SIZE 20 * 8
 using namespace std;
 
 template <class MinHeap, class Out>
@@ -26,12 +25,6 @@ void mergek(MinHeap& heap, Out& out)
 
 int main() {
     auto *buf = new uint64_t[CHUNK_SIZE];
-    /*ofstream out1("in.txt", ios::binary | ios::out);
-    for (int i = 0; i < 100; ++i) {
-        auto *n = new uint64_t(std::rand() % 100);
-        out1.write(reinterpret_cast<char *>(n), sizeof(uint64_t));
-    }
-    out1.close();*/
     ifstream in("in.txt", ios::binary | ios::in);
     while (in) {
         uint64_t n;
