@@ -1,134 +1,162 @@
-
+#pragma once
 #include <iostream>
-#include <string>
-#include <cstdint>
-
+#include <cassert>
+#include <sstream>
+#include <cstdio>
 
 enum class Error
 {
-		NoError,
-		CorruptedArchive
+	NoError,
+	CorruptedArchive
 };
 
 
 class Serializer
 {
+
+	static constexpr char Separator = ' ';
 	std::ostream& out_;
-	static const char separator = ' ';
-
 public:
-	Serializer(std::ostream& out)
-		: out_ (out)
-	{}
 
-
-	template <class... ArgsT>
-	Error operator()(const ArgsT&... args)
+	explicit Serializer(std::ostream& out)
+	: out_(out)
 	{
-		return process<ArgsT...>(args...);
 	}
-
 
 	template <class T>
-	Error save(const T& data)
+	Error save(T& object)
 	{
-		return data.serialize(*this);
+		return object.serialize(*this);
 	}
 
+	template <class... ArgsT>
+	Error operator()(ArgsT&&... args)
+	{
+		return process(std::forward<ArgsT>(args)...);
+	}
 
 private:
-	template<class T>
-	Error process(const T& last)
+
+	template <class T>
+	Error process(T&& arg)
 	{
-		return save<T>(last);
+		return saveStream(std::forward<T>(arg));
 	}
 
 	template <class T, class... ArgsT>
-	Error process(const T& next, const ArgsT&... args)
+	Error process(T&& arg, ArgsT&&... args)
 	{
-		if (save(next) != Error::NoError) return Error::CorruptedArchive;
+		if (saveStream(std::forward<T>(arg)) != Error::NoError)
+		{
+			return Error::CorruptedArchive;
+		}
+		return process(std::forward<ArgsT>(args)...);
+	}
 
-		return process<ArgsT...>(args...);
+	template <class T>
+	Error saveStream(T val)
+	{
+		if constexpr (std::is_same<T, bool>::value)
+		{
+			if (val)
+			{
+				out_ << "true" << Serializer::Separator;
+			}
+			else
+			{
+				out_ << "false" << Serializer::Separator;
+			}
+		}
+		else if constexpr (std::is_same<T, uint64_t>::value)
+		{
+			out_ << val << Serializer::Separator;
+		}
+		else
+		{
+			return Error::CorruptedArchive;
+		}
+		return Error::NoError;
 	}
 };
-
-
 
 class Deserializer
 {
 	std::istream& in_;
-
 public:
-	Deserializer(std::istream& in)
-		: in_ (in)
-	{}
-
-	template <class... ArgsT>
-	Error operator()(ArgsT&... args)
+	explicit Deserializer(std::istream& in)
+	: in_(in)
 	{
-		return process<ArgsT...>(args...);
 	}
 
 	template <class T>
-	Error load(T& data)
+	Error load(T& object)
 	{
-		return data.deserialize(*this);
+		return object.deserialize(*this);
 	}
 
-
-private:
-	template<class T>
-	Error process(T& last)
+	template <class... ArgsT>
+	Error operator()(ArgsT&&... args)
 	{
-		return load<T>(last);
+		return process(std::forward<ArgsT>(args)...);
+	}
+private:
+
+	template <class T>
+	Error loadStream(T& val)
+	{
+		std::string str;
+		in_ >> str;
+		if constexpr (std::is_same<T, bool>::value)
+		{
+			if (str == "true")
+			{
+				val = true;
+			}
+			else if(str == "false")
+			{
+				val = false;
+			}
+			else
+			{
+				return Error::CorruptedArchive;
+			}
+			return Error::NoError;
+		}
+		else if constexpr (std::is_same<T, uint64_t>::value)
+		{
+
+			if (str.length() == 0)
+			{
+				return Error::CorruptedArchive;
+			}
+			for (size_t i = 0; i < str.length(); ++i)
+			{
+				if (!(isdigit(str[i])))
+				{
+					return Error::CorruptedArchive;
+				}
+			}
+			val = std::stoi(str);
+			return Error::NoError;
+
+		}
+
+		return Error::CorruptedArchive;
+	}
+
+	template <class T>
+	Error process(T&& arg)
+	{
+		return loadStream(std::forward<T>(arg));
 	}
 
 	template <class T, class... ArgsT>
-	Error process(T& next, ArgsT&... args)
+	Error process(T&& arg, ArgsT&&... args)
 	{
-		if (load<T>(next) != Error::NoError) return Error::CorruptedArchive;
-
-		return process<ArgsT...>(args...);
+		if (loadStream(std::forward<T>(arg)) != Error::NoError)
+		{
+			return Error::CorruptedArchive;
+		}
+		return process(std::forward<ArgsT>(args)...);
 	}
 };
-
-
-
-template <>
-Error Serializer::save<uint64_t>(const uint64_t& data)
-{
-	out_ << data << separator;
-	return Error::NoError;
-}
-
-template <>
-Error Serializer::save<bool>(const bool& data)
-{
-	if (data) out_ << "true";
-	else out_ << "false";
-	out_ << separator;
-	return Error::NoError;
-}
-
-
-
-template <>
-Error Deserializer::load<uint64_t>(uint64_t& data)
-{
-    in_ >> data;
-    if (in_.fail()) return Error::CorruptedArchive;
-	return Error::NoError;
-}
-
-template <>
-Error Deserializer::load<bool>(bool& data)
-{
-    std::string str;
-    in_ >> str;
-
-    if (str == "false") data = false;
-    else if (str == "true") data = true;
-    else return Error::CorruptedArchive;
-
-    return Error::NoError;
-}

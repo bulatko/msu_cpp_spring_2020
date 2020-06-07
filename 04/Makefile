@@ -9,5 +9,3 @@ main.o: main.cpp serializer.h
 
 clean: main.cpp
 	rm -rf *.o
-
-

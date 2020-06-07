@@ -1,72 +1,52 @@
-#include <iostream>
-#include "allocator.h"
+#include <stdio.h>
+#include <math.h>
 
-using namespace std;
+double func(double x);
+double find(double infinum, double supremum, double epsilon);
 
+double func(double x)
+{
+    return 10 - x;
+}
+ 
+int iters = 0, ok = 0, MAX_ITERS = 10000;
+double find(double infinum, double supremum, double epsilon)
+{
+    ok = 0;
+    if(func(supremum) * func(infinum) > 0){
+        printf("NO ROOT %f %f %f", infinum, supremum, func(supremum) * func(infinum));
+        return 0;
+    }
+    if(supremum < infinum){
+        double t = infinum;
+        infinum = supremum;
+        supremum = t;
+    }
+    while (fabs(supremum - infinum) > epsilon)
+    {
+        iters++;
+        infinum = supremum - (supremum - infinum) * func(supremum) / (func(
+                supremum) - func(infinum));
+        supremum = infinum - (infinum - supremum) * func(infinum) / (func(
+                infinum) - func(supremum));
+        if(iters > MAX_ITERS){
+            printf("MAX ITERS");
+            return 0;
+        }
+    }
+    ok = 1;
+    return supremum;
+}
+ 
 int main()
 {
-
-    makeAllocator(1000);
-
-    char *p1 = alloc(100);
-    char *p2 = alloc(200);
-    char *p3 = alloc(800);
-
-    if (p2 == p1)
-    {
-        cerr << "Test 1 error: p2 == p1";
-        return 1;
-    }
-
-    cout << "test 1 is OK" << endl;
-
-    if (p2 - p1 != 100)
-    {
-        cerr << "Test 2 error: p2 - p1 != 100";
-        return 1;
-    }
-
-    cout << "test 2 is OK" << endl;
-
-    if (p3 != nullptr)
-    {
-        cerr << "Test 3 error: p3 is not nullptr";
-        return 1;
-    }
-
-    cout << "test 3 is OK" << endl;
-
-    reset();
-
-    char *p4 = alloc(800);
-
-    if (p4 == nullptr)
-    {
-        cerr << "Test 4 error: p4 is nullptr";
-        return 1;
-    }
-
-    cout << "test 4 is OK" << endl;
-
-    char *p5 = alloc(200);
-
-    if (p5 == nullptr)
-    {
-        cerr << "Test 5 error: p5 is nullptr";
-        return 1;
-    }
-
-    cout << "test 5 is OK" << endl;
-
-    char *p6 = alloc(1);
-
-    if (p6 != nullptr)
-    {
-        cerr << "Test 6 error: p6 is nullptr";
-        return 1;
-    }
-
-    cout << "test 6 is OK" << endl;
+double a, b, eps;
+if (scanf("%lf %lf %lf", &a, &b, &eps) == 3){
+double res = find(a, b, eps);
+if(ok){
+    printf("%lf", res);
+}
+}
 
     return 0;
 }
