@@ -16,16 +16,47 @@ void Test(bool statement)
     cout << endl;
     test_num++;
 }
-struct A { int x; };
-void foo(const A& a) { std::cerr << a.x << std::endl; }
+int foo(int x) {
+    return x;
+}
 
-int main (int argc, char* argv[])
+struct A
 {
-	ThreadPool pool(8);
+    int data;
+    A() : data(0) {}
+};
 
-	auto task1 = pool.exec(foo, A{1});
-	task1.get();
+struct B
+{
+    int data;
+    B() : data(0) {}
+    int bar(int x) {
+        return data + x;
+    }
+    static int foo(int x) {
+        return x;
+    }
+};
 
-	auto task2 = pool.exec([]() { return 1; });
-	std::cerr << task2.get() << std::endl;
+int bar(const A& a) {
+    return a.data;
+}
+
+int main() {
+    ThreadPool pool(5);
+    A a;
+    auto task0 = pool.exec(bar, a);
+    Test(task0.get() == 0);
+    auto task1 = pool.exec([]() { return 1; });
+    Test(task1.get() == 1);
+    auto task2 = pool.exec(foo, 2);
+    Test(task2.get() == 2);
+    auto task3 = pool.exec(&B::foo, 3);
+    Test(task3.get() == 3);
+    B b;
+    auto f = bind(&B::bar, &b, placeholders::_1);
+    auto task4 = pool.exec(f, 4);
+    Test(task4.get() == 4);
+    cout << "done" << endl;
+    return 0;
 }
