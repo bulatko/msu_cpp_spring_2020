@@ -1,13 +1,13 @@
 all: test
 
-test: main.o 
-	g++ -o test main.o
+test: main.o matrix.o
+	g++ -o test main.o matrix.o
 
 main.o: main.cpp matrix.h
 	g++ -c main.cpp
 
+matrix.o: matrix.cpp matrix.h
+	g++ -c matrix.cpp
 
 clean: main.cpp
-	rm -rf *.o
-
-
+	rm -rf *.o test
